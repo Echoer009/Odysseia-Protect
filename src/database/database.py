@@ -2,11 +2,10 @@ import os
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import declarative_base
+import logging
 
 # --- 数据库配置 ---
-# 建议将数据库URL存储在环境变量中
-# 为了方便演示，这里使用 SQLite。生产环境建议使用 PostgreSQL。
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///bot_database.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///data/bot_database.db")
 
 # --- SQLAlchemy 引擎和会话设置 ---
 
@@ -39,6 +38,15 @@ async def init_db():
     初始化数据库，根据模型创建所有表。
     只应在应用程序启动时运行一次。
     """
+    db_path = engine.url.database
+    if db_path and db_path != ":memory:":  # 确保不是内存数据库
+        # 获取目录部分
+        db_dir = os.path.dirname(db_path)
+        # 如果目录非空且不存在，则创建它
+        if db_dir and not os.path.exists(db_dir):
+            logging.info(f"数据库目录 '{db_dir}' 不存在，正在创建...")
+            os.makedirs(db_dir)
+
     async with engine.begin() as conn:
         # await conn.run_sync(Base.metadata.drop_all) # 如果需要，可以取消注释以在每次启动时清空数据库
         await conn.run_sync(Base.metadata.create_all)
