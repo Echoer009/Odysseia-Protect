@@ -66,7 +66,7 @@ src/
 
 1. **克隆仓库**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/cone97218-alt/Odysseia-protect.git
    cd Odysseia-protect
    ```
 
@@ -83,16 +83,30 @@ src/
    TEST_GUILD_ID=your_test_guild_id
    ```
 
-4. **初始化数据库**
-   ```bash
-   python -m src.database.database
-   ```
-   或通过运行 Bot 自动初始化。
+4. **运行 Bot**
+- windows 部署
 
-5. **运行 Bot**
    ```bash
    python main.py
    ```
+
+- docker 部署
+
+   ```bash
+   docker compose up --build -d
+   ```
+
+5. 关闭 Bot 
+- windows 部署
+
+CTrl + C
+
+- docker 部署
+
+   ```bash
+   docker compose up down
+   ```
+
 
 ## 命令详解
 
