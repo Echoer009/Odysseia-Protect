@@ -13,6 +13,7 @@ def format_resource_list(
     resource_list: Sequence[Resource],
     *,
     is_normal_mode: bool = False,
+    show_download_count: bool = True,
     source: Union[discord.Interaction, discord.Message],
 ) -> str:
     """将资源列表格式化为 Embed 字段值。"""
@@ -38,7 +39,8 @@ def format_resource_list(
                 line += f" - [跳转到消息]({message_url})"
         else:
             # 只为受保护资源显示下载次数
-            line += f" - 📥 下载 {r.download_count} 次"
+            if show_download_count:
+                line += f" - 📥 下载 {r.download_count} 次"
         lines.append(line)
 
     if len(resource_list) > 10:

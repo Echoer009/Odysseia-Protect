@@ -72,7 +72,9 @@ class DownloadService(BaseService):
         )
         embed.add_field(
             name="🔒 受保护资源",
-            value=format_resource_list(secure_resources, source=source),
+            value=format_resource_list(
+                secure_resources, source=source, show_download_count=False
+            ),
             inline=False,
         )
         embed.add_field(
